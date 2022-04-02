@@ -1,37 +1,34 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Header from '../Header/Header'
 import ResultContainer from '../ResultContainer/ResultContainer'
 import SearchBox from '../SearchBox/SearchBox'
 import './App.css'
 
+
 const name = require('@rstacruz/startup-name-generator')
 
-class App extends Component {
-    state = {
-        headerText: 'Name-It!',
-        headerExpanded: true,
-        suggestedNames: [],
-    }
 
-    HandleInputChange = (inputtext) => {
-        this.setState({
-            headerExpanded: !inputtext,
-            suggestedNames: inputtext ? name(inputtext) : [],
-        })
-    }
+const App = () => {
+    const [headerText, setheaderText] = useState('Name It!')
+    const [headerExpanded, setheaderExpanded] = useState(true)
+    const [suggestedNames,setsuggestedNames] = useState([])
+    
+    const HandleInputChange = (inputtext) => {
+        setheaderExpanded(!inputtext);
+        setsuggestedNames(inputtext ? name(inputtext) : [])
 
-    render() {
-        return (
-            <div>
-                <Header
-                    Title={this.state.headerText}
-                    headerExpanded={this.state.headerExpanded}
-                />
-                <SearchBox HandleInputChange={this.HandleInputChange} />
-                <ResultContainer suggestedNames={this.state.suggestedNames} />
-            </div>
-        )
-    }
+        
+     }
+    return (
+        <div>
+            <Header
+                Title={headerText}
+                headerExpanded={headerExpanded}
+            />
+            <SearchBox HandleInputChange={HandleInputChange} />
+            <ResultContainer suggestedNames={suggestedNames} />
+        </div>
+    );
 }
 
 export default App
